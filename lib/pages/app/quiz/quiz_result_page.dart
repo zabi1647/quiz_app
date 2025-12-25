@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/models/mcq_model.dart';
 
 class QuizResultPage extends StatelessWidget {
@@ -15,9 +16,6 @@ class QuizResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final isSmallScreen = screenSize.width < 600;
-
     int correctAnswers = 0;
     for (var i = 0; i < mcqs.length; i++) {
       if (selectedAnswers[i] == mcqs[i].correctAnswerIndex) {
@@ -54,17 +52,17 @@ class QuizResultPage extends StatelessWidget {
           ),
         ),
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
+          padding: EdgeInsets.all(16.w),
           child: Column(
             children: [
               // Score Card
               Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 elevation: 8,
                 child: Container(
-                  padding: EdgeInsets.all(isSmallScreen ? 24 : 32),
+                  padding: EdgeInsets.all(24.w),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
@@ -73,7 +71,7 @@ class QuizResultPage extends StatelessWidget {
                           ? [Colors.green.shade400, Colors.green.shade600]
                           : [Colors.red.shade400, Colors.red.shade600],
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Column(
                     children: [
@@ -81,42 +79,42 @@ class QuizResultPage extends StatelessWidget {
                         passed
                             ? Icons.emoji_events
                             : Icons.sentiment_dissatisfied,
-                        size: isSmallScreen ? 60 : 80,
+                        size: 60.sp,
                         color: Colors.white,
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       Text(
                         passed ? 'Congratulations!' : 'Keep Practicing!',
                         style: TextStyle(
-                          fontSize: isSmallScreen ? 24 : 32,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Text(
                         passed
                             ? 'You passed the quiz!'
                             : 'You need more practice',
                         style: TextStyle(
-                          fontSize: isSmallScreen ? 14 : 16,
+                          fontSize: 14.sp,
                           color: Colors.white.withOpacity(0.9),
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
                       Text(
                         '$percentage%',
                         style: TextStyle(
-                          fontSize: isSmallScreen ? 48 : 64,
+                          fontSize: 48.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Text(
                         'Your Score',
                         style: TextStyle(
-                          fontSize: isSmallScreen ? 16 : 18,
+                          fontSize: 16.sp,
                           color: Colors.white.withOpacity(0.9),
                         ),
                       ),
@@ -124,7 +122,7 @@ class QuizResultPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               // Statistics
               Row(
                 children: [
@@ -134,35 +132,33 @@ class QuizResultPage extends StatelessWidget {
                       correctAnswers.toString(),
                       Icons.check_circle,
                       Colors.green,
-                      isSmallScreen,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   Expanded(
                     child: _buildStatCard(
                       'Incorrect',
                       incorrectAnswers.toString(),
                       Icons.cancel,
                       Colors.red,
-                      isSmallScreen,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               // Review Answers
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Review Your Answers',
                   style: TextStyle(
-                    fontSize: isSmallScreen ? 20 : 24,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.teal.shade600,
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               ...mcqs.asMap().entries.map((entry) {
                 final index = entry.key;
                 final mcq = entry.value;
@@ -174,14 +170,13 @@ class QuizResultPage extends StatelessWidget {
                   mcq,
                   userAnswer,
                   isCorrect,
-                  isSmallScreen,
                 );
               }),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               // Back Button
               SizedBox(
                 width: double.infinity,
-                height: 56,
+                height: 56.h,
                 child: ElevatedButton.icon(
                   onPressed: () {
                     Navigator.popUntil(context, (route) => route.isFirst);
@@ -190,7 +185,7 @@ class QuizResultPage extends StatelessWidget {
                   label: Text(
                     'Back to Home',
                     style: TextStyle(
-                      fontSize: isSmallScreen ? 16 : 18,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -198,7 +193,7 @@ class QuizResultPage extends StatelessWidget {
                     backgroundColor: Colors.teal.shade600,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(15.r),
                     ),
                     elevation: 4,
                   ),
@@ -216,32 +211,28 @@ class QuizResultPage extends StatelessWidget {
     String value,
     IconData icon,
     Color color,
-    bool isSmallScreen,
   ) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
       elevation: 3,
       child: Padding(
-        padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
+        padding: EdgeInsets.all(16.w),
         child: Column(
           children: [
-            Icon(icon, color: color, size: isSmallScreen ? 32 : 40),
-            const SizedBox(height: 8),
+            Icon(icon, color: color, size: 32.sp),
+            SizedBox(height: 8.h),
             Text(
               value,
               style: TextStyle(
-                fontSize: isSmallScreen ? 28 : 36,
+                fontSize: 28.sp,
                 fontWeight: FontWeight.bold,
                 color: color,
               ),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: 4.h),
             Text(
               label,
-              style: TextStyle(
-                fontSize: isSmallScreen ? 12 : 14,
-                color: Colors.grey.shade600,
-              ),
+              style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
             ),
           ],
         ),
@@ -254,14 +245,13 @@ class QuizResultPage extends StatelessWidget {
     MCQModel mcq,
     int? userAnswer,
     bool isCorrect,
-    bool isSmallScreen,
   ) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      margin: EdgeInsets.only(bottom: 16.h),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
       elevation: 3,
       child: Padding(
-        padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+        padding: EdgeInsets.all(12.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -269,19 +259,19 @@ class QuizResultPage extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: isSmallScreen ? 32 : 40,
-                  height: isSmallScreen ? 32 : 40,
+                  width: 32.w,
+                  height: 32.h,
                   decoration: BoxDecoration(
                     color: isCorrect
                         ? Colors.green.shade100
                         : Colors.red.shade100,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Center(
                     child: Text(
                       '${index + 1}',
                       style: TextStyle(
-                        fontSize: isSmallScreen ? 16 : 18,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                         color: isCorrect
                             ? Colors.green.shade700
@@ -290,12 +280,12 @@ class QuizResultPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Text(
                     mcq.question,
                     style: TextStyle(
-                      fontSize: isSmallScreen ? 14 : 16,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -303,7 +293,7 @@ class QuizResultPage extends StatelessWidget {
                 Icon(
                   isCorrect ? Icons.check_circle : Icons.cancel,
                   color: isCorrect ? Colors.green : Colors.red,
-                  size: isSmallScreen ? 24 : 28,
+                  size: 24.sp,
                 ),
               ],
             ),
@@ -316,15 +306,15 @@ class QuizResultPage extends StatelessWidget {
               final isUserSelection = optionIndex == userAnswer;
 
               return Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: EdgeInsets.all(isSmallScreen ? 10 : 12),
+                margin: EdgeInsets.only(bottom: 8.h),
+                padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
                   color: isCorrectOption
                       ? Colors.green.shade50
                       : (isUserSelection && !isCorrect)
                       ? Colors.red.shade50
                       : Colors.grey.shade50,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                   border: Border.all(
                     color: isCorrectOption
                         ? Colors.green
@@ -347,14 +337,14 @@ class QuizResultPage extends StatelessWidget {
                           : (isUserSelection && !isCorrect)
                           ? Colors.red
                           : Colors.grey,
-                      size: isSmallScreen ? 18 : 20,
+                      size: 18.sp,
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8.w),
                     Expanded(
                       child: Text(
                         option,
                         style: TextStyle(
-                          fontSize: isSmallScreen ? 13 : 15,
+                          fontSize: 13.sp,
                           fontWeight: isCorrectOption || isUserSelection
                               ? FontWeight.w600
                               : FontWeight.normal,

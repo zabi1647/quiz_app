@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/pages/app/home/mobile_home_page.dart';
 
 class MobileSignupPage extends StatefulWidget {
@@ -119,9 +120,6 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final isSmallScreen = screenSize.width < 600;
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -134,7 +132,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(isSmallScreen ? 20 : 32),
+              padding: EdgeInsets.all(20.w),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -142,7 +140,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                   children: [
                     // Logo/Icon
                     Container(
-                      padding: const EdgeInsets.all(24),
+                      padding: EdgeInsets.all(24.w),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
@@ -156,29 +154,29 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                       ),
                       child: Icon(
                         Icons.person_add,
-                        size: isSmallScreen ? 50 : 64,
+                        size: 50.sp,
                         color: Colors.teal.shade600,
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
                     // Title
                     Text(
                       'Create Account',
                       style: TextStyle(
-                        fontSize: isSmallScreen ? 28 : 36,
+                        fontSize: 28.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Sign up to get started',
                       style: TextStyle(
-                        fontSize: isSmallScreen ? 14 : 16,
+                        fontSize: 14.sp,
                         color: Colors.white.withOpacity(0.9),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40.h),
                     // Name Field
                     TextFormField(
                       controller: _nameController,
@@ -220,7 +218,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     // Email Field
                     TextFormField(
                       controller: _emailController,
@@ -236,17 +234,17 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.2),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide.none,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide(
                             color: Colors.white.withOpacity(0.3),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: const BorderSide(
                             color: Colors.white,
                             width: 2,
@@ -263,7 +261,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     // Password Field
                     TextFormField(
                       controller: _passwordController,
@@ -289,17 +287,17 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.2),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide.none,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide(
                             color: Colors.white.withOpacity(0.3),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: const BorderSide(
                             color: Colors.white,
                             width: 2,
@@ -316,7 +314,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     // Confirm Password Field
                     TextFormField(
                       controller: _confirmPasswordController,
@@ -346,17 +344,17 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.2),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide.none,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide(
                             color: Colors.white.withOpacity(0.3),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: const BorderSide(
                             color: Colors.white,
                             width: 2,
@@ -373,25 +371,25 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
                     // Signup Button
                     SizedBox(
                       width: double.infinity,
-                      height: 56,
+                      height: 56.h,
                       child: ElevatedButton(
                         onPressed: _isLoading ? null : _handleSignup,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.teal.shade600,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(15.r),
                           ),
                           elevation: 8,
                         ),
                         child: _isLoading
                             ? SizedBox(
-                                height: 24,
-                                width: 24,
+                                height: 24.h,
+                                width: 24.w,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   color: Colors.teal.shade600,
@@ -400,13 +398,13 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                             : Text(
                                 'Sign Up',
                                 style: TextStyle(
-                                  fontSize: isSmallScreen ? 16 : 18,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     // Login Link
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -415,7 +413,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                           'Already have an account? ',
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.9),
-                            fontSize: isSmallScreen ? 14 : 16,
+                            fontSize: 14.sp,
                           ),
                         ),
                         TextButton(
@@ -425,7 +423,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: isSmallScreen ? 14 : 16,
+                              fontSize: 14.sp,
                             ),
                           ),
                         ),

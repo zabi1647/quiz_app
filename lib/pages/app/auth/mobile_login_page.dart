@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/pages/app/auth/mobile_signup_page.dart';
 import 'package:quiz_app/pages/app/home/mobile_home_page.dart';
 
@@ -78,9 +79,6 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final isSmallScreen = screenSize.width < 600;
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -93,7 +91,7 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(isSmallScreen ? 20 : 32),
+              padding: EdgeInsets.all(24.w),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -101,43 +99,43 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
                   children: [
                     // Logo/Icon
                     Container(
-                      padding: const EdgeInsets.all(24),
+                      padding: EdgeInsets.all(24.w),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.2),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
+                            blurRadius: 20.r,
+                            offset: Offset(0, 10.h),
                           ),
                         ],
                       ),
                       child: Icon(
                         Icons.quiz,
-                        size: isSmallScreen ? 50 : 64,
+                        size: 60.sp,
                         color: Colors.teal.shade600,
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
                     // Title
                     Text(
                       'Welcome Back!',
                       style: TextStyle(
-                        fontSize: isSmallScreen ? 28 : 36,
+                        fontSize: 32.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Sign in to continue',
                       style: TextStyle(
-                        fontSize: isSmallScreen ? 14 : 16,
+                        fontSize: 16.sp,
                         color: Colors.white.withOpacity(0.9),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40.h),
                     // Email Field
                     TextFormField(
                       controller: _emailController,
@@ -153,20 +151,20 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.2),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide.none,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide(
                             color: Colors.white.withOpacity(0.3),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
+                          borderRadius: BorderRadius.circular(15.r),
+                          borderSide: BorderSide(
                             color: Colors.white,
-                            width: 2,
+                            width: 2.w,
                           ),
                         ),
                       ),
@@ -180,7 +178,7 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     // Password Field
                     TextFormField(
                       controller: _passwordController,
@@ -206,20 +204,20 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.2),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide.none,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           borderSide: BorderSide(
                             color: Colors.white.withOpacity(0.3),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: const BorderSide(
+                          borderRadius: BorderRadius.circular(15.r),
+                          borderSide: BorderSide(
                             color: Colors.white,
-                            width: 2,
+                            width: 2.w,
                           ),
                         ),
                       ),
@@ -233,25 +231,25 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
                     // Login Button
                     SizedBox(
                       width: double.infinity,
-                      height: 56,
+                      height: 56.h,
                       child: ElevatedButton(
                         onPressed: _isLoading ? null : _handleLogin,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.teal.shade600,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(15.r),
                           ),
                           elevation: 8,
                         ),
                         child: _isLoading
                             ? SizedBox(
-                                height: 24,
-                                width: 24,
+                                height: 24.h,
+                                width: 24.w,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   color: Colors.teal.shade600,
@@ -260,13 +258,13 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
                             : Text(
                                 'Login',
                                 style: TextStyle(
-                                  fontSize: isSmallScreen ? 16 : 18,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     // Sign Up Link
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -275,7 +273,7 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
                           "Don't have an account? ",
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.9),
-                            fontSize: isSmallScreen ? 14 : 16,
+                            fontSize: 16.sp,
                           ),
                         ),
                         TextButton(
@@ -292,7 +290,7 @@ class _MobileLoginPageState extends State<MobileLoginPage> {
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: isSmallScreen ? 14 : 16,
+                              fontSize: 16.sp,
                             ),
                           ),
                         ),

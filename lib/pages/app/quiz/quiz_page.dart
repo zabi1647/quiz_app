@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/models/mcq_model.dart';
 import 'package:quiz_app/pages/app/quiz/quiz_result_page.dart';
 
@@ -21,8 +22,6 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final isSmallScreen = screenSize.width < 600;
     final currentMcq = widget.mcqs[_currentQuestionIndex];
     final selectedAnswer = _selectedAnswers[_currentQuestionIndex];
 
@@ -45,7 +44,7 @@ class _QuizPageState extends State<QuizPage> {
           children: [
             // Progress Bar
             Container(
-              padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
+              padding: EdgeInsets.all(16.w),
               color: Colors.white,
               child: Column(
                 children: [
@@ -55,7 +54,7 @@ class _QuizPageState extends State<QuizPage> {
                       Text(
                         'Question ${_currentQuestionIndex + 1}/${widget.mcqs.length}',
                         style: TextStyle(
-                          fontSize: isSmallScreen ? 16 : 18,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.teal.shade600,
                         ),
@@ -63,14 +62,14 @@ class _QuizPageState extends State<QuizPage> {
                       Text(
                         '${((_currentQuestionIndex + 1) / widget.mcqs.length * 100).toInt()}%',
                         style: TextStyle(
-                          fontSize: isSmallScreen ? 16 : 18,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.teal.shade600,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   LinearProgressIndicator(
                     value: (_currentQuestionIndex + 1) / widget.mcqs.length,
                     backgroundColor: Colors.grey.shade200,
@@ -78,7 +77,7 @@ class _QuizPageState extends State<QuizPage> {
                       Colors.teal.shade600,
                     ),
                     minHeight: 8,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                 ],
               ),
@@ -86,36 +85,36 @@ class _QuizPageState extends State<QuizPage> {
             // Question and Options
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
+                padding: EdgeInsets.all(16.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Question Card
                     Card(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(15.r),
                       ),
                       elevation: 3,
                       child: Padding(
-                        padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
+                        padding: EdgeInsets.all(16.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(8.w),
                                   decoration: BoxDecoration(
                                     color: Colors.teal.shade100,
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(8.r),
                                   ),
                                   child: Icon(
                                     Icons.quiz,
                                     color: Colors.teal.shade600,
-                                    size: isSmallScreen ? 20 : 24,
+                                    size: 20.sp,
                                   ),
                                 ),
-                                const SizedBox(width: 12),
+                                SizedBox(width: 12.w),
                                 Chip(
                                   label: Text(currentMcq.difficulty),
                                   backgroundColor: _getDifficultyColor(
@@ -129,11 +128,11 @@ class _QuizPageState extends State<QuizPage> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16.h),
                             Text(
                               currentMcq.question,
                               style: TextStyle(
-                                fontSize: isSmallScreen ? 18 : 22,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
                               ),
@@ -142,24 +141,24 @@ class _QuizPageState extends State<QuizPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     // Options
                     Text(
                       'Select your answer:',
                       style: TextStyle(
-                        fontSize: isSmallScreen ? 14 : 16,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: Colors.grey.shade700,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     ...currentMcq.options.asMap().entries.map((entry) {
                       final index = entry.key;
                       final option = entry.value;
                       final isSelected = selectedAnswer == index;
 
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                        padding: EdgeInsets.only(bottom: 12.h),
                         child: InkWell(
                           onTap: () {
                             if (!_isSubmitted) {
@@ -168,14 +167,14 @@ class _QuizPageState extends State<QuizPage> {
                               });
                             }
                           },
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15.r),
                           child: Container(
-                            padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
+                            padding: EdgeInsets.all(16.w),
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? Colors.teal.shade600
                                   : Colors.white,
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(15.r),
                               border: Border.all(
                                 color: isSelected
                                     ? Colors.teal.shade600
@@ -194,8 +193,8 @@ class _QuizPageState extends State<QuizPage> {
                             child: Row(
                               children: [
                                 Container(
-                                  width: isSmallScreen ? 32 : 40,
-                                  height: isSmallScreen ? 32 : 40,
+                                  width: 32.w,
+                                  height: 32.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: isSelected
@@ -208,7 +207,7 @@ class _QuizPageState extends State<QuizPage> {
                                         65 + index,
                                       ), // A, B, C, D
                                       style: TextStyle(
-                                        fontSize: isSmallScreen ? 16 : 18,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
                                         color: isSelected
                                             ? Colors.teal.shade600
@@ -217,12 +216,12 @@ class _QuizPageState extends State<QuizPage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: isSmallScreen ? 12 : 16),
+                                SizedBox(width: 12.w),
                                 Expanded(
                                   child: Text(
                                     option,
                                     style: TextStyle(
-                                      fontSize: isSmallScreen ? 15 : 17,
+                                      fontSize: 15.sp,
                                       color: isSelected
                                           ? Colors.white
                                           : Colors.black87,
@@ -244,7 +243,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
             // Navigation Buttons
             Container(
-              padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
+              padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -271,21 +270,21 @@ class _QuizPageState extends State<QuizPage> {
                             color: Colors.teal.shade600,
                             width: 2,
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                         ),
                         child: Text(
                           'Previous',
                           style: TextStyle(
-                            fontSize: isSmallScreen ? 16 : 18,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
-                  if (_currentQuestionIndex > 0) const SizedBox(width: 12),
+                  if (_currentQuestionIndex > 0) SizedBox(width: 12.w),
                   Expanded(
                     flex: 2,
                     child: ElevatedButton(
@@ -304,9 +303,9 @@ class _QuizPageState extends State<QuizPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.teal.shade600,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: EdgeInsets.symmetric(vertical: 16.h),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         elevation: 4,
                       ),
@@ -315,7 +314,7 @@ class _QuizPageState extends State<QuizPage> {
                             ? 'Next'
                             : 'Submit Quiz',
                         style: TextStyle(
-                          fontSize: isSmallScreen ? 16 : 18,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

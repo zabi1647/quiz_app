@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/models/mcq_model.dart';
 import 'package:quiz_app/services/firestore_service.dart';
+import 'package:quiz_app/services/spaced_repetition_service.dart';
 import 'package:quiz_app/pages/app/quiz/quiz_page.dart';
 
 class QuizListPage extends StatelessWidget {
@@ -9,8 +11,6 @@ class QuizListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firestoreService = FirestoreService();
-    final screenSize = MediaQuery.of(context).size;
-    final isSmallScreen = screenSize.width < 600;
 
     return Container(
       decoration: BoxDecoration(
@@ -40,18 +40,24 @@ class QuizListPage extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.quiz_outlined,
-                    size: 80,
+                    size: 80.sp,
                     color: Colors.grey.shade400,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   Text(
                     'No quizzes available yet',
-                    style: TextStyle(fontSize: 18, color: Colors.grey.shade600),
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      color: Colors.grey.shade600,
+                    ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Text(
                     'Check back later for new quizzes!',
-                    style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: Colors.grey.shade500,
+                    ),
                   ),
                 ],
               ),
@@ -68,36 +74,154 @@ class QuizListPage extends StatelessWidget {
           }
 
           return ListView(
-            padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
+            padding: EdgeInsets.all(16.w),
             children: [
               // Header
               Text(
                 'Available Quizzes',
                 style: TextStyle(
-                  fontSize: isSmallScreen ? 24 : 28,
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.teal.shade600,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
-                'Select a category to start your quiz',
+                'Questions you struggle with appear more often',
+                style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade600),
+              ),
+              SizedBox(height: 24.h),
+
+              // Practice Mode Card (Spaced Repetition)
+              if (mcqs.isNotEmpty)
+                Card(
+                  margin: EdgeInsets.only(bottom: 16.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  elevation: 4,
+                  child: InkWell(
+                    onTap: () {
+                      // Select questions using spaced repetition
+                      final selectedQuestions =
+                          SpacedRepetitionService.selectQuestionsForQuiz(
+                            mcqs,
+                            20, // Select 20 questions
+                          );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => QuizPage(
+                            category: 'Practice Mode (Smart Mix)',
+                            mcqs: selectedQuestions,
+                          ),
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(20.r),
+                    child: Container(
+                      padding: EdgeInsets.all(16.w),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.deepPurple.shade400,
+                            Colors.purple.shade600,
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(12.w),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(15.r),
+                            ),
+                            child: Icon(
+                              Icons.auto_awesome,
+                              size: 32.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Practice Mode',
+                                      style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 8.w,
+                                        vertical: 2.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.amber,
+                                        borderRadius: BorderRadius.circular(
+                                          10.r,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'SMART',
+                                        style: TextStyle(
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 4.h),
+                                Text(
+                                  'Focus on your weak areas',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.white.withOpacity(0.9),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                            size: 20.sp,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+              SizedBox(height: 8.h),
+              Text(
+                'Or choose by category:',
                 style: TextStyle(
-                  fontSize: isSmallScreen ? 14 : 16,
-                  color: Colors.grey.shade600,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade700,
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 16.h),
+
               // Category Cards
               ...groupedMcqs.entries.map((entry) {
                 final category = entry.key;
                 final categoryMcqs = entry.value;
-                return _buildCategoryCard(
-                  context,
-                  category,
-                  categoryMcqs,
-                  isSmallScreen,
-                );
+                return _buildCategoryCard(context, category, categoryMcqs);
               }),
             ],
           );
@@ -110,7 +234,6 @@ class QuizListPage extends StatelessWidget {
     BuildContext context,
     String category,
     List<MCQModel> mcqs,
-    bool isSmallScreen,
   ) {
     final categoryIcons = {
       'General': Icons.lightbulb,
@@ -132,44 +255,43 @@ class QuizListPage extends StatelessWidget {
     final color = categoryColors[category] ?? Colors.teal;
 
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      margin: EdgeInsets.only(bottom: 16.h),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       elevation: 4,
       child: InkWell(
         onTap: () {
+          // Apply spaced repetition to category questions
+          final sortedMcqs = SpacedRepetitionService.sortByPriority(mcqs);
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => QuizPage(category: category, mcqs: mcqs),
+              builder: (context) =>
+                  QuizPage(category: category, mcqs: sortedMcqs),
             ),
           );
         },
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         child: Container(
-          padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
+          padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [color.shade400, color.shade600],
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
           ),
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+                padding: EdgeInsets.all(12.w),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(15.r),
                 ),
-                child: Icon(
-                  icon,
-                  size: isSmallScreen ? 32 : 40,
-                  color: Colors.white,
-                ),
+                child: Icon(icon, size: 32.sp, color: Colors.white),
               ),
-              SizedBox(width: isSmallScreen ? 16 : 20),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,27 +299,23 @@ class QuizListPage extends StatelessWidget {
                     Text(
                       category,
                       style: TextStyle(
-                        fontSize: isSmallScreen ? 20 : 24,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Text(
                       '${mcqs.length} Questions Available',
                       style: TextStyle(
-                        fontSize: isSmallScreen ? 14 : 16,
+                        fontSize: 14.sp,
                         color: Colors.white.withOpacity(0.9),
                       ),
                     ),
                   ],
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white,
-                size: isSmallScreen ? 20 : 24,
-              ),
+              Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20.sp),
             ],
           ),
         ),
